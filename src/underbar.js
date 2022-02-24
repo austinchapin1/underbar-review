@@ -237,6 +237,8 @@
     // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
     // time it's called.
+
+    // _.once(1, 2, 3)
     var alreadyCalled = false;
     var result;
 
@@ -299,7 +301,26 @@
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
+  /*
+  Calls the method named by methodName on each value in the list.
+  Any extra arguments passed to invoke will be forwarded on to the method invocation.
+
+  _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
+  => [[1, 5, 7], [1, 2, 3]]
+  */
   _.invoke = function(collection, functionOrKey, args) {
+
+    if (typeof functionOrKey !== 'function') {
+      return _.map(collection, function(item) {
+        return item[functionOrKey].apply(item, args);
+        // AKA item.toUpperCase.apply(item, args)???
+      });
+    }
+
+    return _.map(collection, function(item) {
+      return functionOrKey.apply(item, args);
+    });
+
   };
 
   // Sort the object's values by a criterion produced by an iterator.
